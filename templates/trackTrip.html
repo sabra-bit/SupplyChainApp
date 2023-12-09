@@ -1,0 +1,151 @@
+{% extends 'userHome.html' %}
+{% block content %}
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+
+
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+<h1>Track a Trip</h1>
+<div id = "maper">
+<div id="map" style="height: 180px;">
+
+</div>
+</div>
+
+
+
+ 
+
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Trip ID</th>
+        <th> Car Number</th>
+        <th>Car Name</th>
+        <th>Model</th>
+        <th> Driver Name</th>
+        <th>Driver ID</th>
+        <th>Start Location</th>
+        <th>End Location</th>
+        <th>Is Loaded</th>
+        <th>start Date</th>
+        <th>End Date</th>
+        <th>Shipmment Type</th>
+        <th>Shipmment Amount</th>
+        <th>Discription</th>
+        <th>Notes</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for data in Data %}
+      <tr >
+        <td >
+            {{data[0]}}
+            
+        
+            <a onclick= " mapper(30 , 24+ {{data[0]}});" ><i class="fa fa-eye"></i></a>
+          
+        
+        </td>
+        <td> {{data[1]}} </td>
+        <td> {{data[2]}}  </td>
+        <td>{{data[3]}} </td>
+        <td> {{data[4]}} </td>
+        <td>{{data[5]}}  </td>
+        <td>{{data[6]}}  </td>
+        <td>{{data[7]}}  </td>
+        <td>{{data[8]}}  </td>
+        <td>{{data[9]}} start </td>
+        <td>{{data[10]}} end </td>
+        <td>{{data[11]}}  </td>
+        <td>{{data[12]}} </td>
+        <td>{{data[13]}} </td>
+        <td>{{data[14]}} </td>
+        
+        
+        
+        
+        <td>
+        
+          <button  class="delete-btn" onclick="checkAction('delete Driver','{{data[0]}}')"><i class="fa fa-trash"></i></button>
+        
+        
+    
+        </td>
+      </tr>
+      
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ 
+
+  <script>
+    
+
+    function mapper(lat , long){
+        let containerDiv1 = document.getElementById('maper');
+        let newDiv = document.getElementById('map');
+
+        containerDiv1.removeChild(newDiv)
+
+        let containerDiv = document.getElementById('maper');
+        containerDiv.innerHTML += '<div id="map" style="background-color: white-gray;height: 280px;"></div>';
+
+        var map = L.map('map').setView([lat, long], 7);
+
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        L.marker([lat,long]).addTo(map)
+            .bindPopup('car is here .<br> test demo map.')
+            .openPopup();
+ 
+  
+
+    }
+
+
+
+
+
+    function  checkAction (action,id){
+      swal({
+        title: "Do you want to "+action,
+        text: "Once "+action+", you will not be able to recover this user!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          if(action=='delete Driver'){
+            CallAPI(action,id);
+            }
+        } else {
+          swal("Nothing changed");
+        }
+      });
+    }
+    function CallAPI(action,id){
+
+
+      
+    }
+
+
+
+  </script>
+
+  
+{% endblock content %}
+

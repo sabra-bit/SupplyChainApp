@@ -1,0 +1,129 @@
+{% extends 'userHome.html' %}
+{% block content %}
+
+
+<h1>Add Driver</h1>
+
+
+
+
+
+
+<form action="/addDriver" method="POST" style=" padding-bottom: 25px;">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+  
+    <label for="NID">National ID: </label>
+    <input type="text" id="NID" name="NID" required>
+
+    <label for="Phone">Phone Number:</label>
+    <input type="Text" id="Phone" name="Phone" required>
+  
+    
+    <button type="submit" class="add-btn"><i class="fa fa-plus"></i> Add Driver</button>
+   
+  </form>
+
+ 
+  <div class="row">
+    <div class="col-8">
+<table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>National ID</th>
+        <th>Phone Number</th>
+
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for data in Data %}
+      <tr >
+        <td >{{loop.index}}</td>
+        <td >{{data[1]}}</td>
+        <td>{{data[2]}}</td>
+        
+        <td>{{data[3]}}</td>
+        
+       
+        
+        <td>
+        
+          <button  class="delete-btn" onclick="checkAction('delete Driver','{{data[0]}}')"><i class="fa fa-trash"></i></button>
+          <button  class="delete-btn" onclick="CreateQR('qrcode', '{{data[2]}}')"><i class="fa fa-qrcode"> QR</i></button>
+          
+    
+        </td>
+      </tr>
+      
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="col-4">
+  <div class="row">
+   <center> <div > QR Code </div></center>
+    </div>  
+  <div class="row">
+    
+    <center><div id="qrcode">Click on Qr Code icon to view Qr Code.</div> </center>
+  </div>  
+
+</div>
+</div>
+
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script type="text/javascript" src="{{ url_for('static',filename ='qrcode.min.js') }}"></script>
+ 
+    
+
+
+  <script>
+    
+
+    function CreateQR(id , data){
+      var parentElement = document.getElementById(id);
+      parentElement.innerHTML = '';
+      var qrcode = new QRCode(document.getElementById(id));
+          qrcode.makeCode(data);
+
+    }
+
+
+
+
+    function  checkAction (action,id){
+      swal({
+        title: "Do you want to "+action,
+        text: "Once "+action+", you will not be able to recover this user!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          if(action=='delete Driver'){
+            CallAPI(action,id);
+            }
+        } else {
+          swal("Nothing changed");
+        }
+      });
+    }
+    function CallAPI(action,id){
+
+
+      
+    }
+
+
+
+  </script>
+
+  
+{% endblock content %}
+

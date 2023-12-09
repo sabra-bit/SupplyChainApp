@@ -1,0 +1,183 @@
+{% extends 'userHome.html' %}
+{% block content %}
+
+
+<h1>Create Trip</h1>
+
+
+
+
+
+
+<form action="/createTrip" method="POST" style=" padding-bottom: 25px;">
+  <div class="container">
+    <div class="row"> 
+      <div class="col">
+        <div class="input-group mb-3">
+  <label for="carNumber" class="input-group-text" >Car Number: </label>
+  <select id="carNumber" name="carNumber" required   class="form-select" aria-label=".form-select-lg example" >
+    <option value="">Select a Car</option>
+    {% for car in Cars %}
+      <option value="{{car[2]}}">{{car[2]}}</option>
+      {% endfor %}
+  </select>
+</div>
+</div>
+<div class="col">
+  <div class="input-group mb-3">
+  <label for="driverName" class="input-group-text" >Driver Name: </label>
+  <select id="driverName" name="driverName" required   class="form-select" aria-label=".form-select-lg example"  >
+    <option value="">Select a Driver</option>
+    {% for driver in Drivers %}
+      <option value="{{driver[1]}}">{{driver[1]}}</option>
+      {% endfor %}
+  </select>
+</div>
+</div>
+</div>
+<div class="row"> 
+  <div class="col">
+    <div class="input-group mb-3">
+    <label for="startLocation" class="input-group-text" >Start Location: </label>
+    <input type="text" id="startLocation" name="startLocation" required class="form-control" aria-describedby="basic-addon1" >
+  </div>
+</div>
+  <div class="col">
+    <div class="input-group mb-3">
+    <label for="endLocation" class="input-group-text"  >End Location: </label>
+    <input type="text" id="endLocation" name="endLocation" required class="form-control" aria-describedby="basic-addon1">
+  </div>
+</div>
+  </div>
+  <div class="row"> 
+
+    <div class="col">
+      <div class="input-group mb-3">
+    <label for="shipmentType" class="input-group-text" >Shipment Type:</label>
+    <input type="Text" id="shipmentType" name="shipmentType" required class="form-control" aria-describedby="basic-addon1">
+  </div>
+
+</div>
+
+  <div class="col">
+    <div class="input-group mb-3">
+    <label for="shipmentAmount" class="input-group-text" >Shipment amount:</label>
+    <input type="Text" id="shipmentAmount" name="shipmentAmount" required class="form-control" aria-describedby="basic-addon1">
+  </div>
+</div>
+  </div>
+  <div class="row"> 
+    <div class="col">
+      <div class="input-group mb-3">
+    <label for="Discription" class="input-group-text" >Discription:</label>
+    <textarea type="Text" id="Discription" name="Discription" rows="4" cols="50" required class="form-control" aria-describedby="basic-addon1" > </textarea>
+  </div>  </div>
+
+  <div class="col">
+    <div class="input-group mb-3">
+    <label for="Notes" class="input-group-text" >Notes:</label>
+    <textarea type="Text" id="Notes" name="Notes" rows="4" cols="50"   class="form-control" aria-describedby="basic-addon1"></textarea>
+  </div>
+</div>
+  </div>
+  <div class="row"> 
+
+    <center><button type="submit" class="add-btn"><i class="fa fa-plus"></i> Create Trip</button></center>
+  </div>
+</div>
+  </form>
+
+ 
+
+
+<table class="table table-bordered">
+    <thead class="table-dark">
+      <tr>
+        <th>Trip ID</th>
+        <th> Car Number</th>
+        <th>Car Name</th>
+        <th>Model</th>
+        <th> Driver Name</th>
+        <th>Driver ID</th>
+        <th>Start Location</th>
+        <th>End Location</th>
+        <th>Is Loaded</th>
+        <th>start Date</th>
+        <th>End Date</th>
+        <th>Shipmment Type</th>
+        <th>Shipmment Amount</th>
+        <th>Discription</th>
+        <th>Notes</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for data in Data %}
+      <tr >
+        <td >{{data[0]}}</td>
+        <td> {{data[1]}} </td>
+        <td> {{data[2]}}  </td>
+        <td>{{data[3]}} </td>
+        <td> {{data[4]}} </td>
+        <td>{{data[5]}}  </td>
+        <td>{{data[6]}}  </td>
+        <td>{{data[7]}}  </td>
+        <td>{{data[8]}}  </td>
+        <td>{{data[9]}} start </td>
+        <td>{{data[10]}} end </td>
+        <td>{{data[11]}}  </td>
+        <td>{{data[12]}} </td>
+        <td>{{data[13]}} </td>
+        <td>{{data[14]}} </td>
+        
+        
+        
+        
+        <td>
+        
+          <button  class="delete-btn" onclick="checkAction('delete Driver','{{data[0]}}')"><i class="fa fa-trash"></i></button>
+        
+        
+    
+        </td>
+      </tr>
+      
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+ 
+
+  <script>
+    function  checkAction (action,id){
+      swal({
+        title: "Do you want to "+action,
+        text: "Once "+action+", you will not be able to recover this user!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      })
+      .then((willDelete) => {
+        if (willDelete) {
+          if(action=='delete Driver'){
+            CallAPI(action,id);
+            }
+        } else {
+          swal("Nothing changed");
+        }
+      });
+    }
+    function CallAPI(action,id){
+
+
+      
+    }
+
+
+
+  </script>
+
+  
+{% endblock content %}
+
